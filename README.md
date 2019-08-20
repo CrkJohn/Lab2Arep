@@ -31,7 +31,7 @@ arep@arep:~$ mvn javadoc:jar
 ```
 
 ### Deploy
-Para ver la pagina web, [Click aqui](http://lab2arep.herokuapp.com/hello)
+Para ver la pagina web, [Click aqui](http://lab2arep.herokuapp.com)
 
 
 ### Licence 
