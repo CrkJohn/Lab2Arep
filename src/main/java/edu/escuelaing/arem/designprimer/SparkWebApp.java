@@ -2,6 +2,11 @@ package edu.escuelaing.arem.designprimer;
 
 import static spark.Spark.*;
 import java.util.*;
+
+
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
 import java.io.*;
 import java.text.*;
 
@@ -9,78 +14,70 @@ import java.text.*;
 public class SparkWebApp {
 
 	private static NumberFormat formatter = new DecimalFormat("#0.00");     
+    private static ArrayList<Double> numbers;
     
     public static void main(String[] args)  throws IOException  { 
         port(getPort());
         String first  =  getFileFromResources("index.html");
-        get("/hello", (req, res) -> first);    
-        get("/desviacion" , (req,res) -> 
-                "<!DOCTYPE html>\n"
-                + "<html>\n"
-                + "<head>"
-                +"<meta charset=\"utf-8\">"
-                +"<meta name=\"viewport\" content=\"width=device-width, initial-scale=1, shrink-to-fit=no\">"
-                +"<link rel=\"stylesheet\" href=\"https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css\" integrity=\"sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T\" crossorigin=\"anonymous\">"
-                +"<title>AREM</title>"
-                +"</head>"
-                + "<body>\n"
-                + "<h1>Calculadora de medias y desviaciones estandar</h1>\n" 
-                + "<form action=\"/hello\">\n"
-                + "  la media es "
-                +    media(req.queryParams("numeros"))
-                + "  y "
-                + "  la desviacion es "
-                +    desviacionEstandar(req.queryParams("numeros"))
-                + "  <br><br>\n"
-                + "  <button class=\"btn btn-primary\" >Volver</button>"    
-                + "</form> \n"
-                + "\n"
-                + "\n"
-                + "</body>\n"
-                + "</html>"
-                + "\n");
- 
+        get("/", (req, res) -> first);    
+        post("calculo" , (req,res) -> {
+            JsonObject jsonObject = new JsonParser().parse(req.body()).getAsJsonObject();
+            System.out.print("obj");
+            String ans  = solve(jsonObject);
+            return ans;    
+        });
     }   
 
-    
+    static String solve(JsonObject jsonObject){
+        String[] ans = jsonObject.get("num").getAsString().split(" ");
+        numbers = new ArrayList<Double>(); 
+        for(String n : ans){
+            numbers.add(Double.parseDouble(n));
+        }
+        StringBuilder builder  = new StringBuilder();
+        try {
+            double mediaValue = media();
+            builder.append("Su media es :");
+            builder.append(mediaValue);
+            String desviacion = desviacionEstandar(mediaValue);
+            builder.append(" y su desviacion es " );
+            builder.append(desviacion);
+
+        } catch (Exception e) {
+            builder.append("ERROR AL ENCONTRAR LA MEDIA Y LA DESVIACION VERIFIQUE SUS NUMEROS");
+        }
+        return builder.toString();
+    }
+
 
 	/**
 	 * @param numerosString xd
 	 * @return retorna la desviacion estandar de un conjunto de numeros
 	 * @throws Exception
 	 */
-    public static String desviacionEstandar(String numerosString) throws Exception {
-        String[] ans = numerosString.split(" ");
-        ArrayList<Double> numbers = new ArrayList<Double>(); 
-        for(String n : ans){
-            numbers.add(Double.parseDouble(n));
-        }
-        Double meanValue = Double.parseDouble(media(numerosString));
+    public static String desviacionEstandar(double meanValue) throws Exception {
         double stDeviationValue = 0.0;
 		for(int i  = 0 ; i < numbers.size() ; ++i) {
 			stDeviationValue += Math.pow(numbers.get(i)-meanValue, 2);
 		}
 		double sqrt = stDeviationValue/(numbers.size()-1.0);
 		return formatter.format(Math.sqrt(sqrt)).replace(",",".");		
-	}	
+    }	
+    
+
 	
 	/**
      *  @param xd
 	 *  @return retorna la media de un conjunto de n�meros
 	 *  @throws Exception
 	 */
-	public static String media(String numerosString) throws Exception {
-        String[] ans = numerosString.split(" ");
-        ArrayList<Double> numbers = new ArrayList<Double>(); 
-        for(String n : ans){
-            numbers.add(Double.parseDouble(n));
-        }
+	public static double media() throws Exception {
 		double meanValue = 0.0;
 		for(int i  = 0 ; i < numbers.size() ; ++i) {
 			meanValue+=numbers.get(i);
 		}
 		meanValue/=numbers.size();
-		return formatter.format(meanValue).replace(",",".");	
+		return meanValue;	
 	}
 
 

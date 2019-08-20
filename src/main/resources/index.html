@@ -7,16 +7,36 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <title>AREM</title>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+
+
   </head>
   <body>
+      
+
+      <script>
+          var media = function(){
+              if($("#numeros").val() != ""){
+                  var txt = $("#numeros").val();
+                  $.post("calculo",JSON.stringify({"num" : txt}) , function(data){
+                    document.getElementById("MediaYDesviacion").innerHTML=data;
+                  });
+              }
+          }
+      </script>
     <h1>Calculadora de medias y desviaciones estandar</h1>
-    <form action="/desviacion">
+    <form>
     <div class="form-group">
         <label for="numeros">Escriba los numeros separados por espacio</label>
         <input class="form-control" id="numeros" name="numeros" placeholder="Escriba los numeros">
         <small id="emailHelp" class="form-text text-muted">Ejemplos '1.2 2.3 3 4 5 6 7', sin comillas</small>
     </div>
-    <button id="sub" class="btn btn-primary" >Calcular</button>    
+    <input type="button" id="sub" value="Calcular" onclick="media()" ></input>    
     </form>
+
+    <div id="MediaYDesviacion">
+
+    </div>
+
 </body>
 </html>
