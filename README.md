@@ -12,7 +12,7 @@ Programa desarrollado en Java que haya la media y la desviación estandar de una
 
 ### Arquitectura
 
-![]()
+![](https://github.com/CrkJohn/Lab2Arep/blob/master/images/diagram.png)
 
 ## Ejecutar
 ### Descagar proyecto y descargar sus dependencias y compilar
