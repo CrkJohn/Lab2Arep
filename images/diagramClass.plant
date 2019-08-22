@@ -1,0 +1,52 @@
+@startuml
+
+class Application{
+    + {static}  main(String[] args) : void
+    + {static}  getPort() : int
+    + {static}  getFileFromResources(String fileName): String
+}
+
+
+interface ILikendList <T> {
+	+ add(T node) : void
+	+ T getNode(int id) : <T>
+
+}
+
+class LinkedList<T>{	
+	+  _() : void
+	+  add(T data) : void	
+	+  getNode(int id) : <T>
+	+  ToString() : String	
+}
+
+
+
+class Node<T> {
+	- <T> data
+}
+
+class SparkWebApp {
+
+	- {static}  formatter : NumberFormat 	
+	+ {static} LinkedList<Double> numbers;
+	+ {static}  amountNumbers : double
+	+ {static} meanValue  : double
+    + {static}  solve(JsonObject jsonObject) : String
+    + {static}  desviacionEstandar() : String
+    + {static}  media() : String
+	+ {static}  readFile(String file) : void
+
+}
+
+
+LinkedList *-- Node : Head
+Node -- Node : next
+Node -- Node : before
+ILikendList <|-- LinkedList
+Application .. SparkWebApp
+SparkWebApp -- "1" LinkedList : -likendList
+
+
+
+@enduml
