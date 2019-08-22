@@ -18,22 +18,27 @@ import java.text.*;
 public class SparkWebApp {
 
 	private static NumberFormat formatter = new DecimalFormat("#0.00");     
-    private static ArrayList<Double> numbers;
-    
-    
+
+    	
+	public static LinkedList<Double> numbers;
+	public static double amountNumbers , meanValue ; 
+
 
     public static String solve(JsonObject jsonObject){
         String[] ans = jsonObject.get("num").getAsString().split(" ");
-        numbers = new ArrayList<Double>(); 
+        amountNumbers = 0;
+		meanValue = 0;
+		numbers = new LinkedList<Double>();
         for(String n : ans){
             numbers.add(Double.parseDouble(n));
+            amountNumbers++;
         }
         StringBuilder builder  = new StringBuilder();
         try {
-            double mediaValue = media();
+            String mediaValue = media();
             builder.append("Su media es :");
             builder.append(mediaValue);
-            String desviacion = desviacionEstandar(mediaValue);
+            String desviacion = desviacionEstandar();
             builder.append(" y su desviacion es " );
             builder.append(desviacion);
 
@@ -45,38 +50,51 @@ public class SparkWebApp {
 
 
 	/**
-	 * @param meanValue xd
+	 * 
 	 * @return retorna la desviacion estandar de un conjunto de numeros
 	 * @throws Exception as das
 	 */
-    public static  String desviacionEstandar(double meanValue) throws Exception {
-        double stDeviationValue = 0.0;
-		for(int i  = 0 ; i < numbers.size() ; ++i) {
-			stDeviationValue += Math.pow(numbers.get(i)-meanValue, 2);
+    public static String desviacionEstandar() throws Exception {
+		double stDeviationValue = 0.0;
+		for(int i  = 0 ; i < amountNumbers ; ++i) {
+			stDeviationValue += Math.pow(numbers.getNode(i)-meanValue, 2);
 		}
-		double sqrt = stDeviationValue/(numbers.size()-1.0);
+		double sqrt = stDeviationValue/(amountNumbers-1.0);
 		return formatter.format(Math.sqrt(sqrt)).replace(",",".");		
-    }	
-    
-
+	}	
 	
+
+
 	/**
      *  
 	 *  @return retorna la media de un conjunto de n�meros
 	 *  @throws Exception jaofa
 	 */
-	public static  double media() throws Exception {
-		double meanValue = 0.0;
-		for(int i  = 0 ; i < numbers.size() ; ++i) {
-			meanValue+=numbers.get(i);
+    public static String media() throws Exception {
+		meanValue = 0.0;
+		for(int i  = 0 ; i < amountNumbers ; ++i) {
+			meanValue+=numbers.getNode(i);
 		}
-		meanValue/=numbers.size();
-		return meanValue;	
+		meanValue/=amountNumbers;
+		return formatter.format(meanValue).replace(",",".");	
 	}
 
-
-   
-  
-
-  
+    
+	public static void readFile(String file){
+		amountNumbers = 0;
+		meanValue = 0;
+		numbers = new LinkedList<Double>();
+		try{
+			BufferedReader br = new BufferedReader(new FileReader(file));
+		    String strCurrentLine;
+		    amountNumbers = 0;
+		    while ((strCurrentLine = br.readLine()) != null){
+		    	numbers.add(Double.parseDouble(strCurrentLine));
+		    	amountNumbers++;
+				}    
+				System.err.println(numbers.ToString());
+		  } catch (IOException e) {
+		   e.printStackTrace();
+		  }
+	}
 }

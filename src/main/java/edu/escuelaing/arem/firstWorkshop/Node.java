@@ -4,7 +4,7 @@ package edu.escuelaing.arem.firstWorkshop;
 
 /**
  * Esta clase representa el nodo de tipo T que esta almacenado en una linked list,
- * donde en el tiene almacenado el nodo siguiente a él y a su vez el anterior
+ * donde en el tiene almacenado el nodo siguiente a el y a su vez el anterior
  * 
  * @author CrkJohn
  *  

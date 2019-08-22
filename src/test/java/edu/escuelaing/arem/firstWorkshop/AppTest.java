@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import edu.escuelaing.arem.firstWorkshop.*;
 
+import static edu.escuelaing.arem.firstWorkshop.SparkWebApp.desviacionEstandar;
 import static org.junit.Assert.*;
 import org.junit.Test;
 
@@ -31,10 +32,10 @@ public class AppTest{
         writer.println("624");
         writer.println("1503");
         writer.close();
-        MeanAndStandardDeviation.readFile("input.in");
+        SparkWebApp.readFile("input.in");
         try {
-            assertEquals(MeanAndStandardDeviation.mean(), 550.60 , 2);
-            assertEquals(MeanAndStandardDeviation.standardDeviation(),572.03 , 2);
+            assertEquals(SparkWebApp.media(), "550.60");
+            assertEquals(desviacionEstandar(),"572.03");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -58,11 +59,11 @@ public class AppTest{
         writer.println("38.8");
         writer.println("138.15");
         writer.close();
-        MeanAndStandardDeviation.readFile("input2.in");
+        SparkWebApp.readFile("input2.in");
         System.err.println(MeanAndStandardDeviation.standardDeviation());
         try {
-            //assertEquals(MeanAndStandardDeviation.mean(), 60.32 , 2);
-            //assertEquals(MeanAndStandardDeviation.standardDeviation(),62.25 , 2);
+            assertEquals(SparkWebApp.media(), "60.32");
+            assertEquals(SparkWebApp.desviacionEstandar(),"62.25");
         } catch (Exception e) {
             e.printStackTrace();
         }
