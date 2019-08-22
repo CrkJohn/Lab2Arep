@@ -1,4 +1,10 @@
-package edu.escuelaing.arem.designprimer;
+package edu.escuelaing.arem.firstWorkshop;
+
+import static spark.Spark.*;
+import java.util.*;
+
+
+import com.google.gson.JsonObject;
 
 import static spark.Spark.*;
 import java.util.*;
@@ -9,26 +15,14 @@ import com.google.gson.JsonParser;
 
 import java.io.*;
 import java.text.*;
-
-
 public class SparkWebApp {
 
 	private static NumberFormat formatter = new DecimalFormat("#0.00");     
     private static ArrayList<Double> numbers;
     
-    public static void main(String[] args)  throws IOException  { 
-        port(getPort());
-        String first  =  getFileFromResources("index.html");
-        get("/", (req, res) -> first);    
-        post("calculo" , (req,res) -> {
-            JsonObject jsonObject = new JsonParser().parse(req.body()).getAsJsonObject();
-            System.out.print("obj");
-            String ans  = solve(jsonObject);
-            return ans;    
-        });
-    }   
+    
 
-    static String solve(JsonObject jsonObject){
+    public static String solve(JsonObject jsonObject){
         String[] ans = jsonObject.get("num").getAsString().split(" ");
         numbers = new ArrayList<Double>(); 
         for(String n : ans){
@@ -51,11 +45,11 @@ public class SparkWebApp {
 
 
 	/**
-	 * @param numerosString xd
+	 * @param meanValue xd
 	 * @return retorna la desviacion estandar de un conjunto de numeros
-	 * @throws Exception
+	 * @throws Exception as das
 	 */
-    public static String desviacionEstandar(double meanValue) throws Exception {
+    public static  String desviacionEstandar(double meanValue) throws Exception {
         double stDeviationValue = 0.0;
 		for(int i  = 0 ; i < numbers.size() ; ++i) {
 			stDeviationValue += Math.pow(numbers.get(i)-meanValue, 2);
@@ -67,11 +61,11 @@ public class SparkWebApp {
 
 	
 	/**
-     *  @param xd
+     *  
 	 *  @return retorna la media de un conjunto de n�meros
-	 *  @throws Exception
+	 *  @throws Exception jaofa
 	 */
-	public static double media() throws Exception {
+	public static  double media() throws Exception {
 		double meanValue = 0.0;
 		for(int i  = 0 ; i < numbers.size() ; ++i) {
 			meanValue+=numbers.get(i);
@@ -82,22 +76,7 @@ public class SparkWebApp {
 
 
    
-    static String getFileFromResources(String fileName)  throws IOException  {
-        ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-        InputStream is = classloader.getResourceAsStream(fileName);
-        BufferedReader bf = new BufferedReader(new InputStreamReader(is));
-        String html = "";
-        while(bf.ready()){
-            html+=bf.readLine();
-        }
-        return html;
+  
 
-    }
-
-    static int getPort() {   
-        if (System.getenv("PORT") != null) { 
-            return Integer.parseInt(System.getenv("PORT"));  
-        }        
-        return 4567; //returns default port if heroku-port isn't set(i.e. on localhost)   
-    }
+  
 }
