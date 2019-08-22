@@ -23,7 +23,11 @@ public class SparkWebApp {
 	public static LinkedList<Double> numbers;
 	public static double amountNumbers , meanValue ; 
 
-
+	
+	/** 
+	 * @param jsonObject una representacion Json donde contiene un un atributo defino como num, el cual es la lista de numeros del input
+	 * @return retorna un string que representa el valor del media y desviacion estandar
+	 */
     public static String solve(JsonObject jsonObject){
         String[] ans = jsonObject.get("num").getAsString().split(" ");
         amountNumbers = 0;
@@ -52,7 +56,7 @@ public class SparkWebApp {
 	/**
 	 * 
 	 * @return retorna la desviacion estandar de un conjunto de numeros
-	 * @throws Exception as das
+	 * @throws Exception esta excepcion se dara cuando no hay un valor posible para mapear double
 	 */
     public static String desviacionEstandar() throws Exception {
 		double stDeviationValue = 0.0;
@@ -67,8 +71,8 @@ public class SparkWebApp {
 
 	/**
      *  
-	 *  @return retorna la media de un conjunto de n�meros
-	 *  @throws Exception jaofa
+	 *  @return retorna la media de un conjunto de numeros
+	 *  @throws Exception esta excepcion se dara cuando un indice es mayor a la longitud de la linked list
 	 */
     public static String media() throws Exception {
 		meanValue = 0.0;
@@ -79,7 +83,9 @@ public class SparkWebApp {
 		return formatter.format(meanValue).replace(",",".");	
 	}
 
-    
+    /**
+	 * @param file significa el nombre del archivo html que queremos leer como input de prueba
+	 */
 	public static void readFile(String file){
 		amountNumbers = 0;
 		meanValue = 0;

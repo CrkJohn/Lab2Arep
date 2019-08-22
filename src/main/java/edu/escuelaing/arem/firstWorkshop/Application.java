@@ -32,7 +32,12 @@ public class Application{
         }        
         return 4567; //returns default port if heroku-port isn't set(i.e. on localhost)   
     }
-
+    /**
+     * 
+     * @param fileName nombre de archivo html
+     * @return retorna como string el contenido del  html con nombre file name
+     * @throws IOException
+     */
     static String getFileFromResources(String fileName)  throws IOException  {
         ClassLoader classloader = Thread.currentThread().getContextClassLoader();
         InputStream is = classloader.getResourceAsStream(fileName);
